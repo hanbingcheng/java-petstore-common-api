@@ -2,11 +2,20 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.4'
 	id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.diffplug.spotless' version '6.25.0'
+    id 'com.github.spotbugs' version '6.0.7'
+    id 'maven-publish'
 }
 
 group = 'com.example.petstore'
-version = '0.0.1-SNAPSHOT'
-description = 'common library for petstore api'
+version = '0.0.2'
+base {
+    archivesName = 'api-common'
+}
+
+ext {
+    springCloudVersion = '2025.0.0'
+}
 
 java {
 	toolchain {
@@ -18,8 +27,69 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    // Spring関連
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'org.springframework.security:spring-security-core'
+
+    // logging
+    implementation 'org.aspectj:aspectjweaver'
+    implementation 'org.slf4j:slf4j-api'
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+
+    // ユーティティ
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'commons-codec:commons-codec:1.16.0'
+
+    // Tools
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+tasks.withType(Copy) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+spotless {
+    java {
+        enforceCheck = false
+        removeUnusedImports()
+        googleJavaFormat()
+        ignoreErrorForPath('swagger')
+        lineEndings 'UNIX'
+    }
+}
+
+spotbugs {
+    excludeFilter   = file("$rootDir/spotbugs-exclude.xml")
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.property('group')
+            artifactId = base.archivesName.get()
+            version = project.property('version')
+            from components.java
+        }
+    }
+}
+
+// タスク制御
+compileJava.dependsOn tasks.spotlessApply
+
+bootJar.enabled=false
+jar.enabled=true
+jar.archiveClassifier=''

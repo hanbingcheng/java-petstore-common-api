@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Or>
+            <Source name="~.*\\build\\.*$" />
+            <Source name="~.*/build/.*$" />
+            <Source name="~.*\.groovy$" />
+        </Or>
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP, EI_EXPOSE_REP2" />
+    </Match>
+</FindBugsFilter>
