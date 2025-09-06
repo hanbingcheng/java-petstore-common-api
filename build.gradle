@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.example.petstore'
-version = '0.0.2'
+version = '0.0.8'
 base {
     archivesName = 'api-common'
 }
@@ -41,8 +41,14 @@ dependencyManagement {
 
 dependencies {
     // Spring関連
+    implementation ('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     implementation 'org.springframework.security:spring-security-core'
+    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation 'org.springframework:spring-tx'
 
     // logging
     implementation 'org.aspectj:aspectjweaver'

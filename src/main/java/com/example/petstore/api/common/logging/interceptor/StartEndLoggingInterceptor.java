@@ -1,8 +1,8 @@
 package com.example.petstore.api.common.logging.interceptor;
 
-import com.example.petstore.api.common.constant.CommonLogId;
 import com.example.petstore.api.common.logging.AppLogger;
 import com.example.petstore.api.common.logging.annotation.StartEndLog;
+import com.example.petstore.api.common.logging.constant.CommonLogId;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;

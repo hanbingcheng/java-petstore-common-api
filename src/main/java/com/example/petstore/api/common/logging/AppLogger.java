@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 /** ロガークラス. */
 @AllArgsConstructor
@@ -20,9 +19,6 @@ public class AppLogger {
 
   /** メッセージソース. */
   private final MessageSource messageSource;
-
-  /** TextEncryptor. */
-  private final TextEncryptor textEncryptor;
 
   /**
    * @see org.slf4j.Logger
