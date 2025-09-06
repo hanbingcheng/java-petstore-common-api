@@ -1,6 +1,7 @@
 package com.example.petstore.api.common.errorhandler.configuration;
 
 import com.example.petstore.api.common.errorhandler.constant.CommonErrorCode;
+import com.example.petstore.api.common.errorhandler.constant.ErrorCode;
 import com.example.petstore.api.common.errorhandler.constant.ExceptionMapping;
 import com.example.petstore.api.common.errorhandler.exception.*;
 import com.example.petstore.api.common.errorhandler.model.ErrorResponse;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.MDC;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -33,6 +36,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
   private final AppLogger logger;
+  private final MessageSource messageSource;
 
   // バリデーションエラーハンドラー
   @ExceptionHandler({MethodArgumentNotValidException.class})
@@ -205,6 +209,42 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler({
+    BusinessException.class,
+  })
+  public ResponseEntity<ErrorResponse> handleBusinessException(
+      BusinessException ex, WebRequest request) {
+
+    ErrorResponse error =
+        ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .errorCode(ex.getErrorCode().getCode())
+            .message(getErrorMessage(ex.getErrorCode(), ex.getMessage()))
+            .path(getPath(request))
+            .traceId(getTraceId())
+            .build();
+
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler({
+    SystemException.class,
+  })
+  public ResponseEntity<ErrorResponse> handleSystemException(
+      SystemException ex, WebRequest request) {
+
+    ErrorResponse error =
+        ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .errorCode(ex.getErrorCode().getCode())
+            .message(getErrorMessage(ex.getErrorCode(), ex.getMessage()))
+            .path(getPath(request))
+            .traceId(getTraceId())
+            .build();
+
+    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
   // その他すべての予期せぬ例外をキャッチ
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
@@ -233,5 +273,13 @@ public class GlobalExceptionHandler {
 
   private String getTraceId() {
     return MDC.get("traceId");
+  }
+
+  private String getErrorMessage(ErrorCode errorCode, String message) {
+
+    if (StringUtil.isEmpty(message)) {
+      return messageSource.getMessage(errorCode.getCode(), null, null);
+    }
+    return message;
   }
 }

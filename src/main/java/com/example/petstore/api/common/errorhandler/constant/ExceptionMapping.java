@@ -125,18 +125,18 @@ public enum ExceptionMapping {
       CommonErrorCode.DBACCESS_ERROR,
       "Transaction establish error"),
 
-  // ビジネスロジック例外
-  BUSINESS_ERROR(
-      BusinessException.class,
-      HttpStatus.BAD_REQUEST,
-      CommonErrorCode.INVALID_REQUEST,
-      "Business rule violation"),
   // システム例外（予期せぬエラー用）
   SYSTEM_ERROR(
       SystemException.class,
       HttpStatus.INTERNAL_SERVER_ERROR,
       CommonErrorCode.UNEXPECTED_ERROR,
       "Internal system error"),
+  // ビジネスロジック例外
+  BUSINESS_ERROR(
+      BusinessException.class,
+      HttpStatus.BAD_REQUEST,
+      CommonErrorCode.INVALID_REQUEST,
+      "Business rule violation"),
   // 予期せぬ例外
   UNEXPECTED_ERROR(
       Exception.class,
