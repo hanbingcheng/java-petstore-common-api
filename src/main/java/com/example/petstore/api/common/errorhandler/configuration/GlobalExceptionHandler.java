@@ -1,13 +1,13 @@
 package com.example.petstore.api.common.errorhandler.configuration;
 
+import com.example.petstore.api.common.base.logging.AppLogger;
+import com.example.petstore.api.common.base.logging.constant.CommonLogId;
 import com.example.petstore.api.common.errorhandler.constant.CommonErrorCode;
 import com.example.petstore.api.common.errorhandler.constant.ErrorCode;
 import com.example.petstore.api.common.errorhandler.constant.ExceptionMapping;
 import com.example.petstore.api.common.errorhandler.exception.*;
 import com.example.petstore.api.common.errorhandler.model.ErrorResponse;
 import com.example.petstore.api.common.errorhandler.model.FieldErrorDetail;
-import com.example.petstore.api.common.logging.AppLogger;
-import com.example.petstore.api.common.logging.constant.CommonLogId;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ElementKind;

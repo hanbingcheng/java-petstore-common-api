@@ -1,3 +1,2 @@
-com.example.petstore.api.common.logging.configuration.LoggingConfiguration
+com.example.petstore.api.common.base.configuration.BaseConfiguration
 com.example.petstore.api.common.errorhandler.configuration.ErrorHandlerConfiguration
-com.example.petstore.api.common.converter.configuration.ConverterConfiguration
