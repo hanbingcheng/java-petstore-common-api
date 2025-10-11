@@ -61,7 +61,8 @@ public class GlobalExceptionHandler {
             .fieldErrors(fieldErrors)
             .traceId(getTraceId())
             .build();
-
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR, ex, ex.getClass().getSimpleName(), ex.getMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
@@ -98,7 +99,8 @@ public class GlobalExceptionHandler {
             .fieldErrors(fieldErrors)
             .traceId(getTraceId())
             .build();
-
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR, ex, ex.getClass().getSimpleName(), ex.getMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
@@ -123,7 +125,8 @@ public class GlobalExceptionHandler {
             .fieldErrors(fieldErrors)
             .traceId(getTraceId())
             .build();
-
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR, ex, ex.getClass().getSimpleName(), ex.getMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
@@ -142,7 +145,8 @@ public class GlobalExceptionHandler {
             .fieldErrors(List.of(fieldErrorDetail))
             .traceId(getTraceId())
             .build();
-
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR, ex, ex.getClass().getSimpleName(), ex.getMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
@@ -163,7 +167,8 @@ public class GlobalExceptionHandler {
             .fieldErrors(List.of(fieldErrorDetail))
             .traceId(getTraceId())
             .build();
-
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR, ex, ex.getClass().getSimpleName(), ex.getMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
@@ -184,15 +189,16 @@ public class GlobalExceptionHandler {
             .fieldErrors(List.of(fieldErrorDetail))
             .traceId(getTraceId())
             .build();
-
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR, ex, ex.getClass().getSimpleName(), ex.getMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler({
-    ValidationException.class,
+    AppValidationException.class,
   })
   public ResponseEntity<ErrorResponse> handleValidationException(
-      ValidationException ex, WebRequest request) {
+      AppValidationException ex, WebRequest request) {
 
     FieldErrorDetail fieldErrorDetail =
         new FieldErrorDetail(ex.getParameterName(), ex.getMessage(), ex.getRejectValue());
@@ -206,6 +212,11 @@ public class GlobalExceptionHandler {
             .traceId(getTraceId())
             .build();
 
+    logger.warn(
+        CommonLogId.REQUEST_PARAMETER_ERROR＿WITH_INVALID_VALUE,
+        ex.getClass().getSimpleName(),
+        ex.getMessage(),
+        ex.getRejectValue());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 

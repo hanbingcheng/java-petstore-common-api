@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.example.petstore'
-version = '0.0.8'
+version = '0.0.9'
 base {
     archivesName = 'api-common'
 }
@@ -50,6 +50,9 @@ dependencies {
     implementation 'jakarta.validation:jakarta.validation-api'
     implementation 'org.springframework:spring-tx'
 
+    // RDBMS
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
     // logging
     implementation 'org.aspectj:aspectjweaver'
     implementation 'org.slf4j:slf4j-api'
@@ -58,6 +61,7 @@ dependencies {
     // ユーティティ
     implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'commons-codec:commons-codec:1.16.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
 
     // Tools
     compileOnly 'org.projectlombok:lombok:1.18.30'

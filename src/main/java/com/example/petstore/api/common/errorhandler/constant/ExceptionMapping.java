@@ -110,7 +110,7 @@ public enum ExceptionMapping {
       "invalid request parameter"),
   // バリデーション例外
   VALIDATION_ERROR(
-      ValidationException.class,
+      AppValidationException.class,
       HttpStatus.BAD_REQUEST,
       CommonErrorCode.REQUEST_PARAMETER_ERROR,
       "Validation failed"),
