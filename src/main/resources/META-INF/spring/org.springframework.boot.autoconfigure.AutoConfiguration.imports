@@ -1,2 +1,2 @@
-com.example.petstore.api.common.base.configuration.BaseConfiguration
-com.example.petstore.api.common.errorhandler.configuration.ErrorHandlerConfiguration
+com.example.petstore.common.api.base.configuration.BaseConfiguration
+com.example.petstore.common.api.errorhandler.configuration.ErrorHandlerConfiguration
